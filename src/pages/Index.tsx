@@ -25,34 +25,29 @@ const Index = () => {
   const features = [
     {
       icon: <Database className="h-8 w-8 text-primary" />,
-      title: "Smart Storage",
-      description: "Efficiently store and organize your research data with our intelligent system.",
+      title: "FAIR Data Storage",
+      description: "Handling and storing of data according to FAIR principles.",
       expandedContent: {
         details: [
-          "Automated data classification and tagging",
-          "Version control and change tracking",
-          "Secure encryption for sensitive data",
-          "Automated backup and recovery systems",
-          "Custom metadata management",
-          "Advanced search capabilities"
+          "Built using Supabase",
+          "Search functionality",
+          "Dataset preview with metadata",
+          "Upload and update datasets",
         ],
-        benefits: "Our smart storage system significantly reduces the time spent on data organization while ensuring your research data remains secure and easily accessible. The system automatically handles versioning, allowing you to track changes and collaborate effectively with team members.",
-        useCases: "Perfect for research teams handling large datasets, clinical trials data, or any scientific research requiring stringent data management practices.",
-        technicalSpecs: "Built on modern cloud architecture with end-to-end encryption, supporting all common file formats up to 500GB per dataset."
+
       }
     },
     {
       icon: <Users className="h-8 w-8 text-primary" />,
-      title: "Collaboration",
-      description: "Work seamlessly with your team, sharing data and insights in real-time.",
+      title: "User Optimized UI/UX",
+      description: "A user interface developed in collaborating with all user types to ensure the best user experience.",
       expandedContent: {
         details: [
-          "Real-time collaborative editing",
-          "Role-based access control",
-          "Team communication tools",
-          "Activity tracking and notifications",
-          "Project management features",
-          "Integration with common research tools"
+          "Frontend built using Bootstrap",
+          "User-friendly design with a familiar color scheme",
+          "Includes a dashboard for easy navigation",
+          "Includes tooltips for new users",
+          "Intiutive collapsible navigation bar",
         ],
         benefits: "Enable efficient teamwork across different locations while maintaining full control over access permissions. Track all changes and communications in one centralized platform.",
         useCases: "Ideal for multi-institution research projects, international collaborations, and team-based research initiatives.",
@@ -61,16 +56,14 @@ const Index = () => {
     },
     {
       icon: <Globe className="h-8 w-8 text-primary" />,
-      title: "Global Access",
-      description: "Access your data from anywhere in the world, with robust security measures.",
+      title: "GDPR Compliance",
+      description: "A unique privacy processing module that rates the GDPR compliance of the data and is able to transform uncompliant data to compliant data.",
       expandedContent: {
         details: [
-          "24/7 worldwide access",
-          "Multi-factor authentication",
-          "Geographic data replication",
-          "Bandwidth optimization",
-          "Offline access capabilities",
-          "Cross-platform compatibility"
+          "Upload a dataset to see its GDPR compliance score (P29 Score)",
+          "Select to delete direct identifiers",
+          "Select to delete missing value columns",
+          "If the dataset is not GDPR compliant, the user can choose to transform it to a GDPR compliant dataset using differential privacy",
         ],
         benefits: "Access your research data securely from any location, with automatic synchronization and conflict resolution. Work seamlessly across different time zones and locations.",
         useCases: "Essential for international research teams, field researchers, and organizations with multiple global locations.",
@@ -125,7 +118,7 @@ const Index = () => {
             FAIRDatabase
           </h1>
           <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: "0.2s" }}>
-            FAIRDatabase helps to make research data Findable, Accessible, Interoperable, and Reusable and GDPR compliant.   
+            FAIRDatabase helps to make research data Findable, Accessible, Interoperable, Reusable and GDPR compliant.   
           </p>
           <div className="flex justify-center gap-4 animate-fade-up" style={{ animationDelay: "0.3s" }}>
             {/* <a
@@ -193,7 +186,7 @@ const Index = () => {
                 </ul>
               </div>
 
-              <div>
+              {/* <div>
                 <h4 className="text-lg font-semibold text-dark mb-2">Benefits</h4>
                 <p className="text-dark/80">{activeFeature.expandedContent.benefits}</p>
               </div>
@@ -206,7 +199,7 @@ const Index = () => {
               <div>
                 <h4 className="text-lg font-semibold text-dark mb-2">Technical Specifications</h4>
                 <p className="text-dark/80">{activeFeature.expandedContent.technicalSpecs}</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
