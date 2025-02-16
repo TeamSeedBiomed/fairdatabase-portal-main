@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Database, Users, Globe, ArrowRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Nav } from "@/components/Nav";
+import { useIsMobile } from "@/hooks/use-mobile";
+
 
 const Index = () => {
   const [activeImage, setActiveImage] = useState(0);
