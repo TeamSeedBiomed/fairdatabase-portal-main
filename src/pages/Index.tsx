@@ -83,7 +83,7 @@ const Index = () => {
     },
     {
       name: "Roland V. Bumbuc",
-      role: "PhD Researcher",
+      role: "Database & Systems Development",
       image: "https://www.seedbiomed.com/images/Members/RolandVBumbuc.jpg",
     },
     {
