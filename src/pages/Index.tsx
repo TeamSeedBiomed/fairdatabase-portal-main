@@ -79,22 +79,22 @@ const Index = () => {
     {
       name: "Dr. Vivek Sheraton",
       role: "Project supervisor",
-      image: "https://media.licdn.com/dms/image/v2/C5603AQGr54BT08mZLg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1516828182372?e=1744848000&v=beta&t=puYaAGsYkV2z5vrbv7ADwSpYEbmcYLTBcVfEPiM-2Ew",
+      image: "https://www.seedbiomed.com/images/Members/VivekSheratonM.JPG",
     },
     {
       name: "Matthias Louws BSc.",
       role: "Developer",
-      image: "https://media.licdn.com/dms/image/v2/D5603AQG-zTWX8ymloA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1701443788099?e=1744848000&v=beta&t=wLevBvhkmcfFYBBMqeeHzqkenyoYrAIuOph_1zHn2zo",
+      image: "https://www.seedbiomed.com/images/Members/MatthiasLouws.jpg",
     },
     {
       name: "Zefan Zhu MSc.",
       role: "Data Scientist & GDPR Expert",
-      image: "https://media.licdn.com/dms/image/v2/D4E03AQHIlYkrkE91lg/profile-displayphoto-shrink_800_800/B4EZQsEAb2HsAs-/0/1735906037968?e=1744848000&v=beta&t=5YAoqjn1bVJR-Txz73cpUznEkQI4dJQhkwd5FXiBmR8",
+      image: "https://www.seedbiomed.com/images/Members/ZefanZhu.jpg",
     },
     {
       name: "Allan Duah MSc.",
       role: "AI Developer",
-      image: "https://media.licdn.com/dms/image/v2/D4D03AQHYaxU6fcTREA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1728840492214?e=1744848000&v=beta&t=-gnvyMUggT7CIQeOPtk7JKuHHmdk8SEBot3i5-5jawg",
+      image: "https://www.seedbiomed.com/images/Members/AllanDuah.jpg",
     },
   ];
 
@@ -322,7 +322,7 @@ const Index = () => {
           <img
             src={member.image}
             alt={member.name}
-            className="w-32 h-32 rounded-full object-cover mb-4"
+            className="w-32 h-33 rounded-full object-cover mb-4"
           />
           <h3 className="text-xl font-semibold text-dark">{member.name}</h3>
           <p className="text-dark/80">{member.role}</p>
