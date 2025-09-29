@@ -82,7 +82,12 @@ const Index = () => {
       image: "https://www.seedbiomed.com/images/Members/VivekSheratonM.JPG",
     },
     {
-      name: "Matthias Louws BSc.",
+      name: "Roland V. Bumbuc",
+      role: "PhD Researcher",
+      image: "https://www.seedbiomed.com/images/Members/RolandVBumbuc.jpg",
+    },
+    {
+      name: "Matthias Louws MSc.",
       role: "Developer",
       image: "https://www.seedbiomed.com/images/Members/MatthiasLouws.jpg",
     },
