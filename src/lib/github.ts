@@ -11,7 +11,7 @@ export interface ExampleQuery {
   name: string;
   description: string;
   dataset: string;
-  filters: Record<string, any>;
+  filters: Record<string, string | number | boolean>;
   visualization: string;
   category: string;
 }
@@ -29,7 +29,7 @@ export interface WorkflowStep {
   title: string;
   description: string;
   action: string;
-  parameters?: Record<string, any>;
+  parameters?: Record<string, string | number | boolean | string[]>;
 }
 
 export interface Scenario {
@@ -38,7 +38,7 @@ export interface Scenario {
   description: string;
   dataset: string;
   sample_size: number;
-  filters: Record<string, any>;
+  filters: Record<string, string | number | boolean>;
   expected_results: string;
   use_case: string;
 }

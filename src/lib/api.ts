@@ -10,7 +10,7 @@ export interface Dataset {
   description: string;
   samples: number;
   last_updated: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, string | number | boolean>;
 }
 
 export interface DatasetListResponse {
@@ -20,12 +20,12 @@ export interface DatasetListResponse {
 export interface QueryFilters {
   max_samples?: number;
   min_samples?: number;
-  metadata_filters?: Record<string, any>;
+  metadata_filters?: Record<string, string | number | boolean>;
 }
 
 export interface Sample {
   sample_id: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, string | number | boolean>;
   abundances?: Record<string, number>;
 }
 
@@ -48,14 +48,14 @@ export interface DatasetQueryResponse {
     total_samples: number;
     alpha_diversity: Record<string, AlphaDiversity>;
     taxa_abundance: TaxaAbundance[];
-    processing_info: Record<string, any>;
+    processing_info: Record<string, string | number | boolean>;
   };
 }
 
 export interface ApiError {
   message: string;
   status: number;
-  details?: any;
+  details?: Error | Record<string, unknown>;
 }
 
 // API client class
@@ -120,7 +120,7 @@ class FAIRDatabaseApi {
   }
 
   // Format error for consistent error handling
-  private formatError(error: any): ApiError {
+  private formatError(error: unknown): ApiError {
     if (error instanceof Error) {
       return {
         message: error.message,
@@ -128,10 +128,17 @@ class FAIRDatabaseApi {
         details: error,
       };
     }
+    if (typeof error === 'object' && error !== null) {
+      return {
+        message: "An unknown error occurred",
+        status: 500,
+        details: error as Record<string, unknown>,
+      };
+    }
     return {
       message: "An unknown error occurred",
       status: 500,
-      details: error,
+      details: undefined,
     };
   }
 }

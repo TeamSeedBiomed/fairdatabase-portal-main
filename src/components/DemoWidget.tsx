@@ -73,7 +73,7 @@ const DemoWidget = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">Dataset</label>
-            <Select value={selectedDataset} onValueChange={(value: any) => {
+            <Select value={selectedDataset} onValueChange={(value: "gut" | "oral" | "skin") => {
               setSelectedDataset(value);
               setShowResults(false);
             }}>
