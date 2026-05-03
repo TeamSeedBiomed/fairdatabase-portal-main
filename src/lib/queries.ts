@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import { useQuery, useQueries, UseQueryOptions, UseQueryResult, QueryClient } from "@tanstack/react-query";
 import {
   api,
   DatasetListResponse,
@@ -109,11 +109,25 @@ export const useDatasetComparison = (
   datasetIds: string[],
   filters?: QueryFilters
 ) => {
-  const queries = datasetIds.map((datasetId) =>
-    useDataset(datasetId, filters, {
+  // Use useQueries for multiple parallel queries
+  const queries = useQueries({
+    queries: datasetIds.map((datasetId) => ({
+      queryKey: queryKeys.dataset(datasetId, filters),
+      queryFn: async () => {
+        try {
+          return await api.queryDataset(datasetId, filters);
+        } catch (error) {
+          // Fallback to mock data in development
+          if (import.meta.env.DEV) {
+            console.warn(`Using mock data for dataset ${datasetId} in development`);
+            return mockQueryResponse(datasetId, filters?.max_samples);
+          }
+          throw error;
+        }
+      },
       enabled: datasetIds.length > 0,
-    })
-  );
+    })),
+  });
 
   const isLoading = queries.some((q) => q.isLoading);
   const isError = queries.some((q) => q.isError);
@@ -167,7 +181,7 @@ export const useDatasetStats = () => {
 };
 
 // Prefetch functions for better UX
-export const prefetchDatasets = async (queryClient: any) => {
+export const prefetchDatasets = async (queryClient: QueryClient) => {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.datasets,
     queryFn: () => api.getDatasets(),
@@ -175,7 +189,7 @@ export const prefetchDatasets = async (queryClient: any) => {
 };
 
 export const prefetchDataset = async (
-  queryClient: any,
+  queryClient: QueryClient,
   datasetId: string,
   filters?: QueryFilters
 ) => {

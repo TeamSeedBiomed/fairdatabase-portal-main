@@ -8,6 +8,12 @@ import { Slider } from "@/components/ui/slider";
 import { useDatasets, useDataset } from "@/lib/queries";
 import { Loader2 } from "lucide-react";
 
+interface TaxaChartData {
+  name: string;
+  value: number;
+  color: string;
+}
+
 const Explore = () => {
   const [selectedDataset, setSelectedDataset] = useState("gut");
   const [sampleSize, setSampleSize] = useState([100]);
@@ -189,7 +195,7 @@ const Explore = () => {
                         dataKey="value"
                         label
                       >
-                        {getTaxaChartData().map((entry: any, index: number) => (
+                        {getTaxaChartData().map((entry: TaxaChartData, index: number) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
                       </Pie>
