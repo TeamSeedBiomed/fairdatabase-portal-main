@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Database, Users, Globe, ArrowRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { useIsMobile } from "@/hooks/use-mobile";
+import DemoWidget from "@/components/DemoWidget";
 
 
 const Index = () => {
@@ -137,6 +138,13 @@ const Index = () => {
               Get Started <ArrowRight className="ml-2 h-4 w-4" />
             </a> */}
           </div>
+        </div>
+      </section>
+
+      {/* Interactive Demo Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <DemoWidget />
         </div>
       </section>
 
