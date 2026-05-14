@@ -1,0 +1,31 @@
+# docker-compose.portal.yml
+#
+# Runs ONLY the FAIRDatabase portal (React → Nginx).
+# The portal can run in two modes:
+#
+#   Mode A — Mock data only (no backend needed):
+#     docker compose -f docker-compose.portal.yml up -d
+#     Open http://localhost:3001
+#
+#   Mode B — Connected to a live FAIRDatabase backend:
+#     1. Start FAIRDatabase first (its own compose stack):
+#          bash fairdatabase-src/scripts/bootstrap.sh --auto
+#          cd fairdatabase-src/backend && docker compose up -d && cd ../..
+#     2. Start the portal pointing at the running backend:
+#          VITE_API_URL=http://localhost:5000/api/demo \
+#            docker compose -f docker-compose.portal.yml up -d --build
+#     3. Open http://localhost:3001
+#        The portal demo tab will now query real data from FAIRDatabase.
+
+services:
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile.portal
+      args:
+        # Baked into the JS bundle at build time.
+        # Override with the VITE_API_URL env var before running compose.
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:5000/api/demo}
+    ports:
+      - "3001:80"
+    restart: unless-stopped
