@@ -1,0 +1,3 @@
+[submodule "fairdatabase-src"]
+	path = fairdatabase-src
+	url = https://github.com/youwillfindinfinity/FAIRDatabase.git
