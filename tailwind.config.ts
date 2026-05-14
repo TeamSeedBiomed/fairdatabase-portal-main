@@ -20,8 +20,12 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Outfit', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Consolas', 'Monaco', 'monospace'],
+      },
       colors: {
-        primary: "#8C999B",
+        primary: "#0891B2",
         dark: "#051312",
         secondary: "#051312",
         border: "hsl(var(--border))",

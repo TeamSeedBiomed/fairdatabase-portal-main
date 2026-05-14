@@ -1,7 +1,8 @@
 import { QueryFunction } from "@tanstack/react-query";
 
 // Base URL for FAIRDatabase demo API
-const API_BASE_URL = "https://demo.fairdatabase.org/api/demo";
+// Use VITE_API_URL environment variable, fallback to localhost for development
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/demo";
 
 // TypeScript interfaces for API responses
 export interface Dataset {
@@ -66,6 +67,16 @@ class FAIRDatabaseApi {
     this.baseUrl = baseUrl;
   }
 
+  // Map backend full names to frontend short names
+  private reverseMapDatasetName(fullName: string): string {
+    const reverseNameMap: Record<string, string> = {
+      "gut_microbiome": "gut",
+      "oral_microbiome": "oral",
+      "skin_microbiome": "skin",
+    };
+    return reverseNameMap[fullName] || fullName;
+  }
+
   // Fetch all available datasets
   async getDatasets(): Promise<DatasetListResponse> {
     try {
@@ -76,11 +87,28 @@ class FAIRDatabaseApi {
       }
 
       const data = await response.json();
+      // Map backend dataset names to frontend short names
+      if (data.datasets) {
+        data.datasets = data.datasets.map((ds: Dataset) => ({
+          ...ds,
+          id: this.reverseMapDatasetName(ds.name),
+        }));
+      }
       return data as DatasetListResponse;
     } catch (error) {
       console.error("Error fetching datasets:", error);
       throw this.formatError(error);
     }
+  }
+
+  // Map frontend short names to backend full names
+  private mapDatasetName(shortName: string): string {
+    const nameMap: Record<string, string> = {
+      "gut": "gut_microbiome",
+      "oral": "oral_microbiome",
+      "skin": "skin_microbiome",
+    };
+    return nameMap[shortName] || shortName;
   }
 
   // Query a specific dataset
@@ -89,8 +117,9 @@ class FAIRDatabaseApi {
     filters?: QueryFilters
   ): Promise<DatasetQueryResponse> {
     try {
+      const backendDataset = this.mapDatasetName(datasetId);
       const params = new URLSearchParams({
-        dataset: datasetId,
+        dataset: backendDataset,
       });
 
       if (filters) {
@@ -229,6 +258,21 @@ export const mockQueryResponse = (
       total_samples: dataset.samples,
       alpha_diversity: {
         overall: {
+          shannon: parseFloat((Math.random() * 2 + 2.5).toFixed(2)),
+          simpson: parseFloat((Math.random() * 0.3 + 0.7).toFixed(2)),
+          observed_otus: Math.floor(Math.random() * 500 + 300),
+        },
+        group1: {
+          shannon: parseFloat((Math.random() * 2 + 2.5).toFixed(2)),
+          simpson: parseFloat((Math.random() * 0.3 + 0.7).toFixed(2)),
+          observed_otus: Math.floor(Math.random() * 500 + 300),
+        },
+        group2: {
+          shannon: parseFloat((Math.random() * 2 + 2.5).toFixed(2)),
+          simpson: parseFloat((Math.random() * 0.3 + 0.7).toFixed(2)),
+          observed_otus: Math.floor(Math.random() * 500 + 300),
+        },
+        group3: {
           shannon: parseFloat((Math.random() * 2 + 2.5).toFixed(2)),
           simpson: parseFloat((Math.random() * 0.3 + 0.7).toFixed(2)),
           observed_otus: Math.floor(Math.random() * 500 + 300),

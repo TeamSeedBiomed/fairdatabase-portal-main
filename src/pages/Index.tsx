@@ -1,15 +1,14 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Database, Users, Shield, Activity, ArrowRight, ChevronLeft, ChevronRight, X, Star, Zap, Lock, CheckCircle } from "lucide-react";
 import { Nav } from "@/components/Nav";
-import { useIsMobile } from "@/hooks/use-mobile";
-import DemoWidget from "@/components/DemoWidget";
 
 
 const Index = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeFeature, setActiveFeature] = useState(null);
-  
+
   const screenshots = [
     "127.0.0.1_5000_dashboard(Desktop Screenshot).png",
     "127.0.0.1_5000_p29score(Desktop Screenshot) (1).png",
@@ -28,20 +27,20 @@ const Index = () => {
   const features = [
     {
       icon: <Activity className="h-8 w-8 text-primary" />,
-      title: "PKPB Modeling",
-      description: "Advanced Physiologically-Based Pharmacokinetic (PBPK) modeling for precision medicine and drug development.",
+      title: "PBK Modelling",
+      description: "Advanced Physiologically Based Kinetic (PBK) modelling for precision medicine and drug development.",
       highlight: true,
       expandedContent: {
         details: [
-          "Comprehensive PBPK model library for various drugs and populations",
-          "Integration with FAIR data principles for reproducible research",
-          "Real-time simulation and visualization of drug disposition",
+          "Comprehensive PBK model library for various compounds and populations",
+          "SBML model import for reproducible, interoperable research",
+          "Real-time simulation and visualisation of drug disposition",
           "Population variability and sensitivity analysis tools",
           "Regulatory-compliant reporting and documentation",
-          "Support for pediatric, elderly, and special populations"
+          "Support for paediatric, elderly, and special populations"
         ],
-        benefits: "Accelerate drug development, reduce clinical trial costs, and enable personalized dosing strategies with scientifically rigorous PBPK modeling.",
-        useCases: "Drug-drug interaction predictions, special population dosing, formulation optimization, and regulatory submissions.",
+        benefits: "Accelerate drug development, reduce clinical trial costs, and enable personalised dosing strategies with scientifically rigorous PBK modelling.",
+        useCases: "Drug-drug interaction predictions, special population dosing, formulation optimisation, and regulatory submissions.",
         technicalSpecs: "Validated models according to FDA and EMA guidelines, support for multiple compartments and transport mechanisms."
       }
     },
@@ -49,16 +48,17 @@ const Index = () => {
       icon: <Shield className="h-8 w-8 text-primary" />,
       title: "GDPR Compliance & Privacy",
       description: "Advanced privacy protection with automated GDPR compliance scoring and data transformation capabilities.",
+      demoLink: "/explore",
       expandedContent: {
         details: [
           "Automated P29 Score calculation for GDPR compliance assessment",
           "Intelligent identification and removal of direct identifiers",
-          "Differential privacy algorithms for data anonymization",
+          "Differential privacy algorithms for data anonymisation",
           "Audit trail and compliance documentation generation",
-          "Data minimization recommendations and implementation"
+          "Data minimisation recommendations and implementation"
         ],
         benefits: "Ensure regulatory compliance while maintaining data utility for research. Reduce legal risks and streamline ethics approval processes.",
-        useCases: "Clinical trial data management, multi-center research collaborations, and sensitive health data processing.",
+        useCases: "Clinical trial data management, multi-centre research collaborations, and sensitive health data processing.",
         technicalSpecs: "Compliant with GDPR Article 89, ISO 27001 certified infrastructure, and regular security audits."
       }
     },
@@ -74,7 +74,7 @@ const Index = () => {
           "Version control and provenance tracking for all datasets",
           "API-first architecture for seamless integration"
         ],
-        benefits: "Maximize data discoverability and reuse potential. Enable seamless collaboration across research institutions and disciplines.",
+        benefits: "Maximise data discoverability and reuse potential. Enable seamless collaboration across research institutions and disciplines.",
         useCases: "Multi-omics data integration, longitudinal studies, and cross-disciplinary research projects.",
         technicalSpecs: "RESTful API, support for multiple data formats, automated metadata extraction, and DOI integration."
       }
@@ -85,7 +85,7 @@ const Index = () => {
       description: "Unified workspace designed through extensive user research to support diverse research workflows and teams.",
       expandedContent: {
         details: [
-          "Intuitive dashboard with customizable widgets and views",
+          "Intuitive dashboard with customisable widgets and views",
           "Role-based access control with granular permissions",
           "Real-time collaboration tools and commenting system",
           "Integrated project management and task tracking",
@@ -99,43 +99,11 @@ const Index = () => {
   ];
 
 
-  const teamMembers = [
-    {
-      name: "Dr. Vivek Sheraton",
-      role: "Project supervisor",
-      image: "https://www.seedbiomed.com/images/Members/VivekSheratonM.JPG",
-    },
-    {
-      name: "Roland V. Bumbuc",
-      role: "Database & Systems Development",
-      image: "https://www.seedbiomed.com/images/Members/RolandVBumbuc.jpg",
-    },
-    {
-      name: "Matthias Louws MSc.",
-      role: "Developer",
-      image: "https://www.seedbiomed.com/images/Members/MatthiasLouws.jpg",
-    },
-    {
-      name: "Zefan Zhu MSc.",
-      role: "Data Scientist & GDPR Expert",
-      image: "https://www.seedbiomed.com/images/Members/ZefanZhu.jpg",
-    },
-    {
-      name: "Allan Duah MSc.",
-      role: "AI Developer",
-      image: "https://www.seedbiomed.com/images/Members/AllanDuah.jpg",
-    },
-    {
-      name: "Tu-Ky Ly PhD. PharmD",
-      role: "PBPK Modelling Specialist",
-      image: "https://www.seedbiomed.com/images/Members/TukyLy.JPG",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-white">
       <Nav />
-      
+
       {/* Hero Section */}
       <section
         className="relative pt-32 pb-24 px-4 min-h-[80vh] flex items-center"
@@ -148,13 +116,13 @@ const Index = () => {
         <div className="container mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 animate-fade-up px-4 py-2 bg-primary/20 backdrop-blur-sm rounded-full mb-6">
             <Zap className="h-4 w-4 text-primary" />
-            <span className="text-sm font-semibold text-white">Advanced PBPK Modeling Now Available</span>
+            <span className="text-sm font-semibold text-white">Advanced PBK Modelling Now Available</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
             FAIRDatabase
           </h1>
           <p className="text-xl md:text-2xl text-white/90 mb-4 max-w-3xl mx-auto animate-fade-up" style={{ animationDelay: "0.2s" }}>
-            The complete research data management platform with integrated PKPB modeling and GDPR compliance
+            The complete research data management platform with integrated PBK modelling and GDPR compliance
           </p>
           <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: "0.3s" }}>
             Make your research data Findable, Accessible, Interoperable, and Reusable while ensuring regulatory compliance
@@ -162,29 +130,12 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-up" style={{ animationDelay: "0.4s" }}>
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-semibold">
               <Star className="h-5 w-5" />
-              PKPB Modeling Included
+              PBK Modelling Included
             </div>
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-lg font-semibold">
               <Lock className="h-5 w-5" />
               GDPR Compliant
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Interactive Demo Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">
-              Try the Demo
-            </h2>
-            <p className="text-xl text-dark/70 max-w-2xl mx-auto">
-              Experience our GDPR compliance scoring system with your own dataset
-            </p>
-          </div>
-          <div className="max-w-5xl mx-auto">
-            <DemoWidget />
           </div>
         </div>
       </section>
@@ -195,7 +146,7 @@ const Index = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-dark mb-4">Platform Capabilities</h2>
             <p className="text-xl text-dark/70 max-w-3xl mx-auto">
-              Comprehensive solutions for modern research data management, privacy protection, and pharmacokinetic modeling
+              Comprehensive solutions for modern research data management, privacy protection, and pharmacokinetic modelling
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -222,7 +173,18 @@ const Index = () => {
                 <p className="text-dark/70 leading-relaxed">{feature.description}</p>
                 {feature.highlight && (
                   <div className="mt-4 pt-4 border-t border-primary/20">
-                    <p className="text-sm text-primary font-semibold">Click to explore PKPB capabilities →</p>
+                    <p className="text-sm text-primary font-semibold">Click to explore PBK capabilities →</p>
+                  </div>
+                )}
+                {feature.demoLink && (
+                  <div className="mt-4 pt-4 border-t border-primary/20">
+                    <Link
+                      to={feature.demoLink}
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-sm text-primary font-semibold hover:underline"
+                    >
+                      Try the GDPR compliance demo →
+                    </Link>
                   </div>
                 )}
               </div>
@@ -308,9 +270,29 @@ const Index = () => {
                     <h4 className="text-lg font-bold text-primary">Featured Capability</h4>
                   </div>
                   <p className="text-dark/80">
-                    This feature represents a major advancement in our platform. Contact our team for a personalized demonstration
+                    This feature represents a major advancement in our platform. Contact our team for a personalised demonstration
                     and to discuss how it can accelerate your research workflows.
                   </p>
+                </div>
+              )}
+
+              {activeFeature.demoLink && (
+                <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-6 rounded-xl border-2 border-primary">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Shield className="h-6 w-6 text-primary" />
+                    <h4 className="text-lg font-bold text-primary">Try the Live Demo</h4>
+                  </div>
+                  <p className="text-dark/80 mb-4">
+                    Experience our GDPR compliance scoring system live — upload your own dataset, run it through the anonymisation pipeline, and see the P29 score improve in real time.
+                  </p>
+                  <Link
+                    to={activeFeature.demoLink}
+                    onClick={() => setActiveFeature(null)}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
+                  >
+                    Open GDPR Demo
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
                 </div>
               )}
             </div>
@@ -387,7 +369,7 @@ const Index = () => {
 
           <div className="text-center mt-8">
             <p className="text-dark/60 text-sm">
-              Click on any screenshot to view in full screen • Use arrow keys or dots to navigate
+              Click on any screenshot to view full screen · Use arrows or dots to navigate
             </p>
           </div>
         </div>
@@ -451,47 +433,14 @@ const Index = () => {
         )}
       </section>
 
-      {/* Team Section */}
-      <section id="team" className="py-24 bg-gradient-to-b from-gray-50 to-white">
+      {/* SEEDBiomed CTA */}
+      <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-dark mb-4">Expert Team</h2>
-            <p className="text-xl text-dark/70 max-w-3xl mx-auto">
-              Leading researchers and developers dedicated to advancing scientific data management
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
-            {teamMembers.map((member, index) => (
-              <div
-                key={index}
-                className="group relative bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
-              >
-                <div className="absolute top-0 left-0 w-full h-1 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                <div className="flex flex-col items-center">
-                  <div className="relative mb-4 w-32 h-32">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full rounded-full object-cover border-4 border-gray-100 group-hover:border-primary/20 transition-colors object-top"
-                    />
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
-                      <div className="w-2 h-2 bg-white rounded-full" />
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-bold text-dark mb-1">{member.name}</h3>
-                  <p className="text-sm text-primary font-medium mb-2">{member.role}</p>
-                  <div className="w-12 h-0.5 bg-primary/30 mx-auto" />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl p-8 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-dark mb-4">Part of SEEDBiomed</h3>
-            <p className="text-dark/70 mb-6 max-w-2xl mx-auto">
-              Our team is part of the larger SEEDBiomed consortium, bringing together expertise
-              in biomedical research, data science, and regulatory compliance.
+          <div className="text-center bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl p-12 max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">Meet Our Expert Team</h2>
+            <p className="text-dark/70 mb-8 max-w-2xl mx-auto text-lg">
+              FAIRDatabase is built by the SEEDBiomed consortium — leading researchers and developers
+              dedicated to advancing biomedical data science and regulatory compliance.
             </p>
             <a
               href="https://seedbiomed.com"
@@ -499,7 +448,7 @@ const Index = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
             >
-              Explore SEEDBiomed
+              Meet the Team at SEEDBiomed
               <ArrowRight className="h-5 w-5" />
             </a>
           </div>
@@ -513,7 +462,7 @@ const Index = () => {
             <div className="md:col-span-2">
               <h3 className="text-2xl font-bold text-white mb-4">FAIRDatabase</h3>
               <p className="text-white/70 max-w-md">
-                Advanced research data management platform with integrated PKPB modeling and GDPR compliance tools.
+                Advanced research data management platform with integrated PBK modelling and GDPR compliance tools.
               </p>
             </div>
             <div>
@@ -521,14 +470,14 @@ const Index = () => {
               <ul className="space-y-2 text-white/70">
                 <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
                 <li><a href="#screenshots" className="hover:text-primary transition-colors">Screenshots</a></li>
-                <li>PKPB Modeling</li>
+                <li>PBK Modelling</li>
                 <li>GDPR Compliance</li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold text-white mb-4">Connect</h4>
               <ul className="space-y-2 text-white/70">
-                <li><a href="#team" className="hover:text-primary transition-colors">Our Team</a></li>
+                <li><a href="https://seedbiomed.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Our Team</a></li>
                 <li><a href="https://seedbiomed.com" target="_blank" className="hover:text-primary transition-colors">SEEDBiomed</a></li>
                 <li>Contact Us</li>
               </ul>

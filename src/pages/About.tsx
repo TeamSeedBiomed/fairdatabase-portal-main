@@ -79,7 +79,7 @@ const About = () => {
       ]
     },
     {
-      title: "Data Minimization",
+      title: "Data Minimisation",
       description: "Collect and store only necessary data",
       icon: Database,
       features: [
@@ -146,7 +146,7 @@ const About = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-gray-700">
-                FAIRDatabase is a specialized platform for managing microbiome research data according to
+                FAIRDatabase is a specialised platform for managing microbiome research data according to
                 FAIR (Findable, Accessible, Interoperable, Reusable) principles while ensuring GDPR compliance.
                 It addresses the unique challenges of handling sensitive biological data in research environments.
               </p>
@@ -279,7 +279,7 @@ const About = () => {
                   <AccordionTrigger>Security Measures</AccordionTrigger>
                   <AccordionContent>
                     <p className="text-gray-700 mb-2">
-                      Technical and organizational measures include:
+                      Technical and organisational measures include:
                     </p>
                     <ul className="list-disc list-inside space-y-1 text-gray-700">
                       <li>Encryption at rest and in transit (TLS 1.3)</li>
