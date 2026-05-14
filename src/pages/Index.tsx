@@ -1,493 +1,397 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Database, Users, Shield, Activity, ArrowRight, ChevronLeft, ChevronRight, X, Star, Zap, Lock, CheckCircle } from "lucide-react";
+import {
+  Database, Users, Shield, Activity, ArrowRight,
+  ChevronLeft, ChevronRight, X, Search, FlaskConical,
+} from "lucide-react";
 import { Nav } from "@/components/Nav";
 
+const FAIR_PILLARS = [
+  {
+    letter: "F",
+    title: "Findable",
+    description: "Datasets carry persistent identifiers and rich metadata so they can be discovered by humans and machines.",
+    color: "bg-blue-50 border-blue-200 text-blue-700",
+    letterColor: "text-blue-600",
+  },
+  {
+    letter: "A",
+    title: "Accessible",
+    description: "Data is retrievable via open, standardised protocols with clear authentication rules and long-term availability.",
+    color: "bg-emerald-50 border-emerald-200 text-emerald-700",
+    letterColor: "text-emerald-600",
+  },
+  {
+    letter: "I",
+    title: "Interoperable",
+    description: "Data uses community vocabularies and formats, enabling seamless integration across systems and disciplines.",
+    color: "bg-violet-50 border-violet-200 text-violet-700",
+    letterColor: "text-violet-600",
+  },
+  {
+    letter: "R",
+    title: "Reusable",
+    description: "Rich provenance, clear licensing, and community standards ensure data can be reliably reused by future researchers.",
+    color: "bg-amber-50 border-amber-200 text-amber-700",
+    letterColor: "text-amber-600",
+  },
+];
+
+const CAPABILITIES = [
+  {
+    icon: <Activity className="h-6 w-6 text-primary" />,
+    title: "PBK Modelling",
+    description:
+      "Physiologically Based Kinetic modelling for precision medicine and drug development. Import SBML models, run real-time simulations, and generate regulatory-compliant reports.",
+    link: "/pkpd",
+    linkLabel: "Run simulations",
+  },
+  {
+    icon: <Shield className="h-6 w-6 text-primary" />,
+    title: "GDPR Compliance",
+    description:
+      "Automated P29 Score calculation, differential privacy algorithms, and audit trail generation. Upload your dataset and see anonymisation in action.",
+    link: "/explore",
+    linkLabel: "Try the demo",
+  },
+  {
+    icon: <Database className="h-6 w-6 text-primary" />,
+    title: "FAIR Data Management",
+    description:
+      "Complete data lifecycle management with DOI assignment, faceted search, version control, and an API-first architecture for seamless integration.",
+    link: "/explore",
+    linkLabel: "Browse datasets",
+  },
+  {
+    icon: <Users className="h-6 w-6 text-primary" />,
+    title: "Collaborative Workspace",
+    description:
+      "Role-based access control, real-time team collaboration, and customisable dashboards designed for multi-site research consortia.",
+    link: "/researchers",
+    linkLabel: "Researcher docs",
+  },
+];
+
+const SCREENSHOTS = [
+  { src: "127.0.0.1_5000_dashboard(Desktop Screenshot).png", caption: "Research Dashboard — dataset overview and activity feed" },
+  { src: "127.0.0.1_5000_p29score(Desktop Screenshot) (1).png", caption: "P29 Privacy Score — GDPR compliance assessment" },
+  { src: "127.0.0.1_5000_upload(Desktop Screenshot).png", caption: "Dataset Upload — guided ingestion with metadata extraction" },
+  { src: "search.png", caption: "Faceted Search — discover datasets by metadata, format, and access level" },
+];
 
 const Index = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeFeature, setActiveFeature] = useState(null);
 
-  const screenshots = [
-    "127.0.0.1_5000_dashboard(Desktop Screenshot).png",
-    "127.0.0.1_5000_p29score(Desktop Screenshot) (1).png",
-    "127.0.0.1_5000_upload(Desktop Screenshot).png",
-    "search.png"
-  ];
-
-  const nextImage = () => {
-    setActiveImage((prev) => (prev + 1) % screenshots.length);
-  };
-
-  const previousImage = () => {
-    setActiveImage((prev) => (prev - 1 + screenshots.length) % screenshots.length);
-  };
-
-  const features = [
-    {
-      icon: <Activity className="h-8 w-8 text-primary" />,
-      title: "PBK Modelling",
-      description: "Advanced Physiologically Based Kinetic (PBK) modelling for precision medicine and drug development.",
-      highlight: true,
-      expandedContent: {
-        details: [
-          "Comprehensive PBK model library for various compounds and populations",
-          "SBML model import for reproducible, interoperable research",
-          "Real-time simulation and visualisation of drug disposition",
-          "Population variability and sensitivity analysis tools",
-          "Regulatory-compliant reporting and documentation",
-          "Support for paediatric, elderly, and special populations"
-        ],
-        benefits: "Accelerate drug development, reduce clinical trial costs, and enable personalised dosing strategies with scientifically rigorous PBK modelling.",
-        useCases: "Drug-drug interaction predictions, special population dosing, formulation optimisation, and regulatory submissions.",
-        technicalSpecs: "Validated models according to FDA and EMA guidelines, support for multiple compartments and transport mechanisms."
-      }
-    },
-    {
-      icon: <Shield className="h-8 w-8 text-primary" />,
-      title: "GDPR Compliance & Privacy",
-      description: "Advanced privacy protection with automated GDPR compliance scoring and data transformation capabilities.",
-      demoLink: "/explore",
-      expandedContent: {
-        details: [
-          "Automated P29 Score calculation for GDPR compliance assessment",
-          "Intelligent identification and removal of direct identifiers",
-          "Differential privacy algorithms for data anonymisation",
-          "Audit trail and compliance documentation generation",
-          "Data minimisation recommendations and implementation"
-        ],
-        benefits: "Ensure regulatory compliance while maintaining data utility for research. Reduce legal risks and streamline ethics approval processes.",
-        useCases: "Clinical trial data management, multi-centre research collaborations, and sensitive health data processing.",
-        technicalSpecs: "Compliant with GDPR Article 89, ISO 27001 certified infrastructure, and regular security audits."
-      }
-    },
-    {
-      icon: <Database className="h-8 w-8 text-primary" />,
-      title: "FAIR Data Management",
-      description: "Complete data lifecycle management following Findable, Accessible, Interoperable, and Reusable principles.",
-      expandedContent: {
-        details: [
-          "Built on Supabase with enterprise-grade scalability",
-          "Advanced search with metadata indexing and faceted filtering",
-          "Rich dataset preview with comprehensive metadata display",
-          "Version control and provenance tracking for all datasets",
-          "API-first architecture for seamless integration"
-        ],
-        benefits: "Maximise data discoverability and reuse potential. Enable seamless collaboration across research institutions and disciplines.",
-        useCases: "Multi-omics data integration, longitudinal studies, and cross-disciplinary research projects.",
-        technicalSpecs: "RESTful API, support for multiple data formats, automated metadata extraction, and DOI integration."
-      }
-    },
-    {
-      icon: <Users className="h-8 w-8 text-primary" />,
-      title: "Collaborative Research Platform",
-      description: "Unified workspace designed through extensive user research to support diverse research workflows and teams.",
-      expandedContent: {
-        details: [
-          "Intuitive dashboard with customisable widgets and views",
-          "Role-based access control with granular permissions",
-          "Real-time collaboration tools and commenting system",
-          "Integrated project management and task tracking",
-          "Comprehensive user onboarding with interactive tutorials"
-        ],
-        benefits: "Streamline research workflows and enhance team productivity. Reduce training time with intuitive, familiar interfaces.",
-        useCases: "Distributed research teams, multi-site clinical trials, and interdisciplinary collaborations.",
-        technicalSpecs: "Responsive design, WCAG 2.1 AA accessibility compliance, and support for 10+ languages."
-      }
-    }
-  ];
-
-
+  const nextImage = () => setActiveImage((prev) => (prev + 1) % SCREENSHOTS.length);
+  const prevImage = () => setActiveImage((prev) => (prev - 1 + SCREENSHOTS.length) % SCREENSHOTS.length);
 
   return (
     <div className="min-h-screen bg-white">
       <Nav />
 
-      {/* Hero Section */}
+      {/* ── Hero ────────────────────────────────────────────────────── */}
       <section
-        className="relative pt-32 pb-24 px-4 min-h-[80vh] flex items-center"
+        className="relative pt-32 pb-28 px-4 min-h-[80vh] flex items-center"
         style={{
-          backgroundImage: "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80')",
+          backgroundImage:
+            "linear-gradient(rgba(5,19,18,0.78), rgba(5,19,18,0.78)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
         <div className="container mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 animate-fade-up px-4 py-2 bg-primary/20 backdrop-blur-sm rounded-full mb-6">
-            <Zap className="h-4 w-4 text-primary" />
-            <span className="text-sm font-semibold text-white">Advanced PBK Modelling Now Available</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/20 backdrop-blur-sm rounded-full mb-6 border border-primary/30">
+            <FlaskConical className="h-3.5 w-3.5 text-primary" />
+            <span className="text-xs font-semibold text-white/90 tracking-wide uppercase">
+              PBK Modelling · GDPR Compliance · FAIR Data
+            </span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
+
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-5 animate-fade-up">
             FAIRDatabase
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-4 max-w-3xl mx-auto animate-fade-up" style={{ animationDelay: "0.2s" }}>
-            The complete research data management platform with integrated PBK modelling and GDPR compliance
+
+          <p className="text-xl md:text-2xl text-white/85 mb-3 max-w-3xl mx-auto animate-fade-up" style={{ animationDelay: "0.1s" }}>
+            Research data management built on FAIR principles
           </p>
-          <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: "0.3s" }}>
-            Make your research data Findable, Accessible, Interoperable, and Reusable while ensuring regulatory compliance
+          <p className="text-base text-white/60 mb-10 max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: "0.2s" }}>
+            Findable · Accessible · Interoperable · Reusable — with integrated PBK modelling and automated GDPR compliance scoring.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-up" style={{ animationDelay: "0.4s" }}>
-            <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-semibold">
-              <Star className="h-5 w-5" />
-              PBK Modelling Included
-            </div>
-            <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-lg font-semibold">
-              <Lock className="h-5 w-5" />
-              GDPR Compliant
-            </div>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-up" style={{ animationDelay: "0.3s" }}>
+            <Link
+              to="/explore"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-primary text-white rounded-lg font-semibold shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <Search className="h-4 w-4" />
+              Explore the Platform
+            </Link>
+            <Link
+              to="/about"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-white/10 backdrop-blur-sm text-white rounded-lg font-semibold border border-white/20 hover:bg-white/20 transition-all duration-200"
+            >
+              Learn about FAIR
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-24 bg-gradient-to-b from-gray-50 to-white">
+      {/* ── FAIR Pillars ────────────────────────────────────────────── */}
+      <section className="py-20 bg-slate-50 border-b border-slate-100">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-dark mb-4">Platform Capabilities</h2>
-            <p className="text-xl text-dark/70 max-w-3xl mx-auto">
-              Comprehensive solutions for modern research data management, privacy protection, and pharmacokinetic modelling
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className={`relative p-6 bg-white rounded-xl shadow-sm hover:shadow-lg transition-all cursor-pointer transform hover:-translate-y-2 border-2 ${
-                  feature.highlight ? 'border-primary bg-gradient-to-br from-primary/5 to-white' : 'border-transparent'
-                }`}
-                onClick={() => setActiveFeature(feature)}
-              >
-                {feature.highlight && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">
-                      <Star className="h-3 w-3" />
-                      FEATURED
-                    </span>
-                  </div>
-                )}
-                <div className="mb-4">{feature.icon}</div>
-                <h3 className={`text-xl font-bold text-dark mb-3 ${feature.highlight ? 'text-primary' : ''}`}>
-                  {feature.title}
-                </h3>
-                <p className="text-dark/70 leading-relaxed">{feature.description}</p>
-                {feature.highlight && (
-                  <div className="mt-4 pt-4 border-t border-primary/20">
-                    <p className="text-sm text-primary font-semibold">Click to explore PBK capabilities →</p>
-                  </div>
-                )}
-                {feature.demoLink && (
-                  <div className="mt-4 pt-4 border-t border-primary/20">
-                    <Link
-                      to={feature.demoLink}
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-sm text-primary font-semibold hover:underline"
-                    >
-                      Try the GDPR compliance demo →
-                    </Link>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Feature Modal */}
-      {activeFeature && (
-        <div
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center overflow-y-auto p-4"
-          onClick={() => setActiveFeature(null)}
-        >
-          <div
-            className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="relative bg-gradient-to-r from-primary to-primary/80 text-white p-8 rounded-t-2xl">
-              <div className="flex items-center gap-4 mb-2">
-                <div className="p-3 bg-white/20 rounded-lg">
-                  {activeFeature.icon}
-                </div>
-                <h3 className="text-3xl font-bold">{activeFeature.title}</h3>
-              </div>
-              <p className="text-white/90 text-lg">{activeFeature.description}</p>
-              <button
-                onClick={() => setActiveFeature(null)}
-                className="absolute top-4 right-4 text-white hover:bg-white/20 p-2 rounded-full transition-colors"
-              >
-                <X className="h-6 w-6" />
-              </button>
-            </div>
-
-            <div className="p-8 space-y-8">
-              <div>
-                <h4 className="text-xl font-bold text-dark mb-4 flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary" />
-                  Key Capabilities
-                </h4>
-                <div className="grid md:grid-cols-2 gap-3">
-                  {activeFeature.expandedContent.details.map((detail, index) => (
-                    <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                      <div className="mt-1">
-                        <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      </div>
-                      <span className="text-dark/80">{detail}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h4 className="text-lg font-bold text-dark mb-3 flex items-center gap-2">
-                    <Zap className="h-5 w-5 text-primary" />
-                    Benefits
-                  </h4>
-                  <p className="text-dark/70 leading-relaxed">{activeFeature.expandedContent.benefits}</p>
-                </div>
-
-                <div>
-                  <h4 className="text-lg font-bold text-dark mb-3 flex items-center gap-2">
-                    <ArrowRight className="h-5 w-5 text-primary" />
-                    Use Cases
-                  </h4>
-                  <p className="text-dark/70 leading-relaxed">{activeFeature.expandedContent.useCases}</p>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-r from-gray-50 to-white p-6 rounded-xl border border-gray-200">
-                <h4 className="text-lg font-bold text-dark mb-2 flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-primary" />
-                  Technical Specifications
-                </h4>
-                <p className="text-dark/70">{activeFeature.expandedContent.technicalSpecs}</p>
-              </div>
-
-              {activeFeature.highlight && (
-                <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-6 rounded-xl border-2 border-primary">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Star className="h-6 w-6 text-primary" />
-                    <h4 className="text-lg font-bold text-primary">Featured Capability</h4>
-                  </div>
-                  <p className="text-dark/80">
-                    This feature represents a major advancement in our platform. Contact our team for a personalised demonstration
-                    and to discuss how it can accelerate your research workflows.
-                  </p>
-                </div>
-              )}
-
-              {activeFeature.demoLink && (
-                <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-6 rounded-xl border-2 border-primary">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Shield className="h-6 w-6 text-primary" />
-                    <h4 className="text-lg font-bold text-primary">Try the Live Demo</h4>
-                  </div>
-                  <p className="text-dark/80 mb-4">
-                    Experience our GDPR compliance scoring system live — upload your own dataset, run it through the anonymisation pipeline, and see the P29 score improve in real time.
-                  </p>
-                  <Link
-                    to={activeFeature.demoLink}
-                    onClick={() => setActiveFeature(null)}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
-                  >
-                    Open GDPR Demo
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Screenshots Section */}
-      <section id="screenshots" className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-dark mb-4">Platform Overview</h2>
-            <p className="text-xl text-dark/70 max-w-3xl mx-auto">
-              Experience the intuitive interface and powerful features of FAIRDatabase
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Built on FAIR Principles</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto">
+              Every dataset managed through FAIRDatabase follows the internationally recognised FAIR Data Principles,
+              maximising scientific value and reuse potential.
             </p>
           </div>
 
-          <div className="relative w-full h-[500px] md:h-[700px] lg:h-[800px] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 shadow-xl">
-            {screenshots.map((src, index) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {FAIR_PILLARS.map((pillar) => (
               <div
-                key={index}
-                className={`absolute inset-0 cursor-pointer transition-all duration-500 ${
-                  activeImage === index ? "opacity-100" : "opacity-0"
-                }`}
-                onClick={() => setIsModalOpen(true)}
+                key={pillar.letter}
+                className={`rounded-xl border p-6 ${pillar.color} transition-shadow hover:shadow-md`}
               >
-                <img
-                  src={src}
-                  alt={`Platform Screenshot ${index + 1}`}
-                  className="w-full h-full object-contain p-8"
-                />
+                <div className={`text-4xl font-black mb-3 ${pillar.letterColor}`}>{pillar.letter}</div>
+                <h3 className="text-lg font-bold mb-2">{pillar.title}</h3>
+                <p className="text-sm leading-relaxed opacity-80">{pillar.description}</p>
               </div>
             ))}
-
-            {/* Navigation Buttons */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                previousImage();
-              }}
-              className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-dark p-3 rounded-full shadow-lg transition-all hover:scale-110 z-10"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                nextImage();
-              }}
-              className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-dark p-3 rounded-full shadow-lg transition-all hover:scale-110 z-10"
-              aria-label="Next image"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </button>
-
-            {/* Pagination Dots */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10 bg-white/90 px-4 py-2 rounded-full">
-              {screenshots.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveImage(index);
-                  }}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    activeImage === index ? "bg-primary scale-125" : "bg-gray-400 hover:bg-gray-600"
-                  }`}
-                  aria-label={`Go to screenshot ${index + 1}`}
-                />
-              ))}
-            </div>
           </div>
 
           <div className="text-center mt-8">
-            <p className="text-dark/60 text-sm">
-              Click on any screenshot to view full screen · Use arrows or dots to navigate
-            </p>
+            <Link
+              to="/about"
+              className="inline-flex items-center gap-1.5 text-sm text-primary font-medium hover:underline"
+            >
+              How we implement each principle <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </div>
+      </section>
 
-        {/* Full Screen Modal */}
-        {isModalOpen && (
-          <div
-            className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center"
-            onClick={() => setIsModalOpen(false)}
-          >
-            <div className="relative w-full h-full flex items-center justify-center p-4">
-              <button
-                className="absolute top-6 right-6 text-white hover:text-gray-300 transition-colors z-20"
-                onClick={() => setIsModalOpen(false)}
+      {/* ── Platform Capabilities ────────────────────────────────────── */}
+      <section id="features" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Platform Capabilities</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto">
+              An integrated toolkit for modern biomedical research — from raw data ingestion to regulatory submission.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {CAPABILITIES.map((cap) => (
+              <div
+                key={cap.title}
+                className="p-6 rounded-xl border border-slate-200 hover:border-primary/40 hover:shadow-md transition-all duration-200 bg-white"
               >
-                <X className="h-8 w-8" />
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">{cap.icon}</div>
+                  <h3 className="text-lg font-bold text-slate-900">{cap.title}</h3>
+                </div>
+                <p className="text-slate-600 text-sm leading-relaxed mb-4">{cap.description}</p>
+                <Link
+                  to={cap.link}
+                  className="inline-flex items-center gap-1.5 text-sm text-primary font-semibold hover:underline"
+                >
+                  {cap.linkLabel} <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Screenshots ──────────────────────────────────────────────── */}
+      <section id="screenshots" className="py-20 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Platform Overview</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto">
+              A tour of the core interfaces — from dataset discovery to compliance reporting.
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <div
+              className="relative rounded-2xl overflow-hidden bg-slate-200 shadow-xl cursor-pointer h-[360px] md:h-[480px]"
+              onClick={() => setIsModalOpen(true)}
+            >
+              {SCREENSHOTS.map((s, i) => (
+                <div
+                  key={i}
+                  className={`absolute inset-0 transition-opacity duration-500 ${activeImage === i ? "opacity-100" : "opacity-0"}`}
+                >
+                  <img
+                    src={s.src}
+                    alt={s.caption}
+                    className="w-full h-full object-contain p-6"
+                  />
+                </div>
+              ))}
+
+              <button
+                onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-slate-700 p-2.5 rounded-full shadow transition-all hover:scale-110 z-10"
+                aria-label="Previous screenshot"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-slate-700 p-2.5 rounded-full shadow transition-all hover:scale-110 z-10"
+                aria-label="Next screenshot"
+              >
+                <ChevronRight className="h-5 w-5" />
               </button>
 
-              <img
-                src={screenshots[activeImage]}
-                alt={`Platform Screenshot ${activeImage + 1}`}
-                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-              />
-
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  previousImage();
-                }}
-                className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-colors z-10"
-              >
-                <ChevronLeft className="h-8 w-8" />
-              </button>
-
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  nextImage();
-                }}
-                className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-colors z-10"
-              >
-                <ChevronRight className="h-8 w-8" />
-              </button>
-
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                {screenshots.map((_, index) => (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                {SCREENSHOTS.map((_, i) => (
                   <button
-                    key={index}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveImage(index);
-                    }}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      activeImage === index ? "bg-white" : "bg-white/50"
-                    }`}
+                    key={i}
+                    onClick={(e) => { e.stopPropagation(); setActiveImage(i); }}
+                    className={`w-2.5 h-2.5 rounded-full transition-all ${activeImage === i ? "bg-primary scale-125" : "bg-white/70 hover:bg-white"}`}
+                    aria-label={`Go to screenshot ${i + 1}`}
                   />
                 ))}
               </div>
             </div>
+
+            {/* Caption */}
+            <p className="mt-4 text-center text-sm text-slate-500 italic">
+              {SCREENSHOTS[activeImage].caption} — click to enlarge
+            </p>
+
+            {/* Thumbnail strip */}
+            <div className="mt-4 grid grid-cols-4 gap-3">
+              {SCREENSHOTS.map((s, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveImage(i)}
+                  className={`rounded-lg overflow-hidden border-2 transition-all ${activeImage === i ? "border-primary shadow-md" : "border-transparent opacity-60 hover:opacity-100"}`}
+                >
+                  <img src={s.src} alt={s.caption} className="w-full h-16 object-cover object-top" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Lightbox */}
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+            onClick={() => setIsModalOpen(false)}
+          >
+            <button
+              className="absolute top-5 right-5 text-white/70 hover:text-white transition-colors z-20"
+              onClick={() => setIsModalOpen(false)}
+              aria-label="Close lightbox"
+            >
+              <X className="h-8 w-8" />
+            </button>
+
+            <img
+              src={SCREENSHOTS[activeImage].src}
+              alt={SCREENSHOTS[activeImage].caption}
+              className="max-w-full max-h-[88vh] object-contain rounded-lg shadow-2xl"
+            />
+
+            <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm italic">
+              {SCREENSHOTS[activeImage].caption}
+            </p>
+
+            <button
+              onClick={(e) => { e.stopPropagation(); prevImage(); }}
+              className="absolute left-5 top-1/2 -translate-y-1/2 bg-white/15 hover:bg-white/25 text-white p-3 rounded-full transition-colors z-10"
+              aria-label="Previous screenshot"
+            >
+              <ChevronLeft className="h-7 w-7" />
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); nextImage(); }}
+              className="absolute right-5 top-1/2 -translate-y-1/2 bg-white/15 hover:bg-white/25 text-white p-3 rounded-full transition-colors z-10"
+              aria-label="Next screenshot"
+            >
+              <ChevronRight className="h-7 w-7" />
+            </button>
           </div>
         )}
       </section>
 
-      {/* SEEDBiomed CTA */}
-      <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl p-12 max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">Meet Our Expert Team</h2>
-            <p className="text-dark/70 mb-8 max-w-2xl mx-auto text-lg">
-              FAIRDatabase is built by the SEEDBiomed consortium — leading researchers and developers
-              dedicated to advancing biomedical data science and regulatory compliance.
-            </p>
+      {/* ── SEEDBiomed CTA ──────────────────────────────────────────── */}
+      <section className="py-20 bg-white border-t border-slate-100">
+        <div className="container mx-auto px-4 max-w-3xl text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">Built by SEEDBiomed</h2>
+          <p className="text-slate-500 mb-8 text-base leading-relaxed">
+            FAIRDatabase is developed by the SEEDBiomed consortium — a multidisciplinary team of researchers,
+            data scientists, and regulatory specialists committed to open and reproducible biomedical science.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a
               href="https://seedbiomed.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-lg shadow hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
             >
-              Meet the Team at SEEDBiomed
-              <ArrowRight className="h-5 w-5" />
+              Meet the Team
+              <ArrowRight className="h-4 w-4" />
             </a>
+            <Link
+              to="/researchers"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3 border border-slate-200 text-slate-700 font-semibold rounded-lg hover:border-primary/40 hover:text-primary transition-all"
+            >
+              API & Integration docs
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-dark text-white">
+      {/* ── Footer ──────────────────────────────────────────────────── */}
+      <footer className="bg-[#051312] text-white">
         <div className="container mx-auto px-4 py-12">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div className="md:col-span-2">
-              <h3 className="text-2xl font-bold text-white mb-4">FAIRDatabase</h3>
-              <p className="text-white/70 max-w-md">
-                Advanced research data management platform with integrated PBK modelling and GDPR compliance tools.
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <h3 className="text-lg font-bold text-white mb-3">FAIRDatabase</h3>
+              <p className="text-white/55 text-sm leading-relaxed">
+                Research data management platform with integrated PBK modelling and GDPR compliance tools, built on FAIR principles.
               </p>
             </div>
+
             <div>
-              <h4 className="font-semibold text-white mb-4">Platform</h4>
-              <ul className="space-y-2 text-white/70">
-                <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
-                <li><a href="#screenshots" className="hover:text-primary transition-colors">Screenshots</a></li>
-                <li>PBK Modelling</li>
-                <li>GDPR Compliance</li>
+              <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-wide">Platform</h4>
+              <ul className="space-y-2 text-white/60 text-sm">
+                <li><Link to="/explore" className="hover:text-primary transition-colors">Explore Data</Link></li>
+                <li><Link to="/pkpd" className="hover:text-primary transition-colors">PBK Simulations</Link></li>
+                <li><Link to="/about" className="hover:text-primary transition-colors">FAIR Principles</Link></li>
+                <li><Link to="/researchers" className="hover:text-primary transition-colors">For Researchers</Link></li>
               </ul>
             </div>
+
             <div>
-              <h4 className="font-semibold text-white mb-4">Connect</h4>
-              <ul className="space-y-2 text-white/70">
-                <li><a href="https://seedbiomed.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Our Team</a></li>
-                <li><a href="https://seedbiomed.com" target="_blank" className="hover:text-primary transition-colors">SEEDBiomed</a></li>
-                <li>Contact Us</li>
+              <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-wide">Organisation</h4>
+              <ul className="space-y-2 text-white/60 text-sm">
+                <li>
+                  <a href="https://seedbiomed.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                    SEEDBiomed Consortium
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:info@seedbiomed.com" className="hover:text-primary transition-colors">
+                    Contact Us
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-white/10 pt-8 text-center">
-            <p className="text-white/60 text-sm">
-              © {new Date().getFullYear()} FAIRDatabase. All rights reserved. |
-              Built with modern web technologies for research excellence.
+            <p className="text-white/40 text-xs">
+              © {new Date().getFullYear()} FAIRDatabase · SEEDBiomed Consortium · Open research infrastructure
             </p>
           </div>
         </div>

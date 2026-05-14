@@ -8,8 +8,8 @@ export const Nav = () => {
 
   const links = [
     { to: "/explore", label: "Explore Data" },
-    { to: "/researchers", label: "For Researchers" },
     { to: "/pkpd", label: "PBK Simulations" },
+    { to: "/researchers", label: "For Researchers" },
     { to: "/about", label: "About" },
   ];
 
@@ -20,7 +20,7 @@ export const Nav = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3 group">
-            <img src="fairdb_logo.png" alt="Logo" className="h-8 w-8" />
+            <img src="fairdb_logo.png" alt="FAIRDatabase logo" className="h-8 w-8" />
             <span className="hidden md:inline text-white text-xl font-semibold tracking-tight group-hover:text-primary transition-colors duration-200">
               FAIRDatabase
             </span>
@@ -44,12 +44,6 @@ export const Nav = () => {
                 )}
               </Link>
             ))}
-            <Link
-              to="/explore"
-              className="ml-4 px-4 py-2 text-sm font-semibold bg-primary text-white rounded-md hover:bg-primary/90 transition-colors duration-200"
-            >
-              Live Demo
-            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -80,13 +74,6 @@ export const Nav = () => {
               {link.label}
             </Link>
           ))}
-          <Link
-            to="/explore"
-            onClick={() => setMobileOpen(false)}
-            className="block mt-2 px-4 py-2.5 text-sm font-semibold text-center bg-primary text-white rounded-md"
-          >
-            Live Demo
-          </Link>
         </div>
       )}
     </nav>
